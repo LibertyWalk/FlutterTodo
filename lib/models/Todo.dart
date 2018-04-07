@@ -4,11 +4,13 @@ class Todo {
   String title;
   String description;
   String id;
+  bool isExpanded;
 
   Todo({
     @required this.title,
     @required this.id,
     this.description,
+    this.isExpanded
   });
 
   Map<String, dynamic> toMap() {
