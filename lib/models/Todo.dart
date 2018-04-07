@@ -4,19 +4,11 @@ class Todo {
   String title;
   String description;
   String id;
-  DateTime due;
-  DateTime remind;
-  bool isExpanded;
-  bool isImportant;
 
   Todo({
     @required this.title,
     @required this.id,
     this.description,
-    this.isExpanded,
-    this.isImportant,
-    this.due,
-    this.remind
   });
 
   Map<String, dynamic> toMap() {
