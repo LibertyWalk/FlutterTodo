@@ -1,6 +1,6 @@
 # todo_app
 
-A new Flutter project.
+The minimumest of the minimum todo apps
 
 ## Getting Started
 
