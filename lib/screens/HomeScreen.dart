@@ -3,7 +3,7 @@ import 'package:todo_app/models/Todo.dart';
 import 'package:todo_app/database/TodoDatabase.dart';
 import 'package:todo_app/widgets/TodoItem.dart';
 import 'package:todo_app/screens/AddTodoScreen.dart';
-import 'dart:convert' as json;
+import 'package:uuid/uuid.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -19,12 +19,14 @@ class HomeScreenState extends State<HomeScreen> {
     populateTodos();
   }
 
+  String keyGen() {
+    Uuid uuid = new Uuid();
+    return uuid.v4().toString();
+  }
+
   void populateTodos() async {
     TodoDatabase db = new TodoDatabase();
     db.getAllTodos().then((newTodos) {
-      for (var todo in newTodos) {
-        print(todo.title + ", " + todo.id);
-      }
       setState(() => todos = newTodos);
     });
   }
@@ -53,10 +55,6 @@ class HomeScreenState extends State<HomeScreen> {
           new IconButton(
             icon: new Icon(Icons.delete),
             onPressed: () => clearDb(),
-          ),
-          new IconButton(
-            icon: new Icon(Icons.refresh),
-            onPressed: () => populateTodos(),
           )
         ],
       ),
@@ -66,12 +64,12 @@ class HomeScreenState extends State<HomeScreen> {
           children: <Widget>[
             new Expanded(
               child: new ListView.builder(
+                key: new Key(keyGen()),
                 padding: new EdgeInsets.all(10.0),
                 itemCount: todos.length,
                 itemBuilder: (BuildContext context, int index) {
                   return new TodoItem(todos[index], onDelete: (id) {
                     TodoDatabase db = new TodoDatabase();
-                    print("ID: " + id);
                     db.deleteTodo(id).then((b) {
                       populateTodos();
                     });

@@ -33,7 +33,6 @@ class TodoDatabase {
   Future<List<Todo>> getAllTodos() async {
     var dbClient = await db;
     List<Map> res = await dbClient.query("Todos");
-    print(res);
     return res.map((map) => new Todo(title: map["title"], description: map["description"], id: map["id"])).toList();
   }
 
@@ -66,7 +65,7 @@ class TodoDatabase {
       "Todos",
       where: "id = ?",
       whereArgs: [id]);
-      print("Deleted item");
+      print("Deleted Item with ID: " + id);
       return res;
   }
 
