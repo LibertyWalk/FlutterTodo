@@ -3,6 +3,7 @@ import 'package:todo_app/models/Todo.dart';
 import 'package:todo_app/database/TodoDatabase.dart';
 import 'package:todo_app/widgets/TodoItem.dart';
 import 'package:todo_app/screens/AddTodoScreen.dart';
+import 'dart:convert' as json;
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -21,6 +22,9 @@ class HomeScreenState extends State<HomeScreen> {
   void populateTodos() async {
     TodoDatabase db = new TodoDatabase();
     db.getAllTodos().then((newTodos) {
+      for (var todo in newTodos) {
+        print(todo.title + ", " + todo.id);
+      }
       setState(() => todos = newTodos);
     });
   }
@@ -40,12 +44,6 @@ class HomeScreenState extends State<HomeScreen> {
     populateTodos();
   }
 
-  void deleteTodo(String id) {
-    TodoDatabase db = new TodoDatabase();
-    db.deleteTodo(id);
-    populateTodos();
-  }
-
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
@@ -55,6 +53,10 @@ class HomeScreenState extends State<HomeScreen> {
           new IconButton(
             icon: new Icon(Icons.delete),
             onPressed: () => clearDb(),
+          ),
+          new IconButton(
+            icon: new Icon(Icons.refresh),
+            onPressed: () => populateTodos(),
           )
         ],
       ),
